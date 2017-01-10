@@ -1,0 +1,19 @@
+= Cross Compiling Qt for Raspberry Pi
+
+== Install
+
+. Grab the 2016-09-23-raspbian-jessie.img file off the raspberry pi downloads and flash it onto a micro SD card.
+. By running the OS on a raaspberry pi, install the two packages `libxcb1-dev` and `libx11-dev` via `apt-get`.
+. Connect the micro SD card onto the host machine that you will be cross compiling on.
+. Unmount the micro SD card from your machine using the `umount` command.
+. Remount the raspian image on the micro SD card using the `remount.sh` script.
+. You may need to change the `/dev/mmcblk0` value to where the micro SD card is located on your own machine.
+On a machine with a built in sd-card reader, `<sd-card-location>` might be `/dev/mmcblk0`.
+. Once mounted, run the `install-qt5pi.sh` script, this script may take a few hours to complete.
+
+== Using the Cross Compilation Toolchain
+
+. In a Qt project (where a `.pro` file is), use the qmake located at `/usr/local/qt5pi/bin/qmake` to generate the Makefile.
+. Use `make clean` to clean up old incompatible build artifacts, then run `make` for a normal compilation.
+. The resulting binary will be targetted for the raspberry pi, copy the binary back onto the micro SD card using `sudo cp <binary> /mnt/rasp-pi-rootfs/home/pi/
+. Unmount the micro SD card and run the executable using `binary -platform xcb`.
